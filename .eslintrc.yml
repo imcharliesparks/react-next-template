@@ -16,4 +16,4 @@ parserOptions:
 plugins:
   - react
   - '@typescript-eslint'
-rules: {}
+rules: { '@typescript-eslint/ban-ts-comment': 'warn' }
