@@ -5,3 +5,7 @@
 ### To Research
 
 - [Authentication](https://next-auth.js.org)
+
+### Sources for Patterns
+
+- [Mongoose/Next](https://itnext.io/using-mongoose-with-next-js-11-b2a08ff2dd3c)
