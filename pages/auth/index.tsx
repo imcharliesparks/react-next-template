@@ -1,6 +1,6 @@
 import React from 'react'
-import { BASE_URL } from '../../shared/constants'
 import { APIMethods, CredentialedSignUp } from '../../shared/types'
+import { signIn } from 'next-auth/react'
 
 const SignUp = () => {
 	const firstName = React.createRef<HTMLInputElement>()
@@ -9,25 +9,28 @@ const SignUp = () => {
 	const password = React.createRef<HTMLInputElement>()
 
 	const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+		// TODO: Properly authenticate user with Next sign-in
 		e.preventDefault()
-		const credentials: CredentialedSignUp = {
-			firstName: firstName.current!.value,
-			lastName: lastName.current!.value,
-			email: email.current!.value,
-			password: password.current!.value
-		}
+		try {
+			const credentials: CredentialedSignUp = {
+				firstName: firstName.current!.value,
+				lastName: lastName.current!.value,
+				email: email.current!.value,
+				password: password.current!.value
+			}
 
-		console.log(JSON.stringify(credentials))
-		const response = await fetch(`/api/custom-auth/sign-up`, {
-			method: APIMethods.POST,
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(credentials)
-		})
-		console.log('here')
-		const result = await response.json()
-		console.log('result', result)
+			const response = await fetch(`/api/custom-auth/sign-up`, {
+				method: APIMethods.POST,
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(credentials)
+			})
+			await response.json()
+			alert('Sign up successful!')
+		} catch (e: any) {
+			console.error(e)
+		}
 	}
 
 	return (
@@ -45,6 +48,7 @@ const SignUp = () => {
 				<input placeholder="Email" type="text" ref={email} />
 				<input placeholder="Password" type="password" ref={password} />
 				<button type="submit">Submit</button>
+				<button onClick={() => signIn()}>Sign In</button>
 			</form>
 		</div>
 	)

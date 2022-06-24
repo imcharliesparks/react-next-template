@@ -44,4 +44,4 @@ const userSchema = new mongoose.Schema<CredentialedUser>({
 	}
 })
 
-export const UserModel = mongoose.model<CredentialedUser>('User', userSchema)
+export const UserModel = mongoose.models.User ?? mongoose.model<CredentialedUser>('User', userSchema)
