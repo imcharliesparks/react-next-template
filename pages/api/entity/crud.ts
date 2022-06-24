@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { APIMethods } from '../../../shared/types'
 import { Entity, IEntity } from '../../../models/Entity'
-import { ObjectId } from 'mongodb'
+// import { ObjectId } from 'mongodb'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method } = req
