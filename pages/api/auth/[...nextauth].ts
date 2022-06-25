@@ -45,31 +45,32 @@ export default NextAuth({
 		})
 	],
 	callbacks: {
-		// TODO: Type these
-		async jwt({ token, user, account }: any) {
-			if (account && user) {
-				return {
-					...token,
-					accessToken: user.data.token,
-					refreshToken: user.data.refreshToken
-				}
-			}
+		// TODO: Fix this
+		// async jwt(params: any) {
+		// 	console.log('params', params)
+		// 	const { token, user, account } = params
+		// 	if (account && user) {
+		// 		return {
+		// 			...token,
+		// 			accessToken: user.data.token,
+		// 			refreshToken: user.data.refreshToken
+		// 		}
+		// 	}
 
-			return token
-		},
+		// 	return token
+		// },
 
 		async session({ session, token }: any) {
 			session.user.accessToken = token.accessToken
-
 			return session
 		}
 	},
 	session: {
 		strategy: 'jwt'
 	},
-	secret: process.env.NEXTAUTH_SECRET
+	secret: process.env.NEXTAUTH_SECRET,
 	// TODO: Implement custom page capabilities
-	// pages: {
-	// 	signIn: '/auth/sign-in'
-	// }
+	pages: {
+		signIn: '/auth/sign-in'
+	}
 })
