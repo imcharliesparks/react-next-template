@@ -7,6 +7,17 @@ export enum APIMethods {
 	DELETE = 'DELETE'
 }
 
+export enum AuthResponses {
+	USER_ALREADY_EXISTS = 'USER_ALREADY_EXISTS',
+	UNABLE_TO_SAVE_USER = 'UNABLE_TO_SAVE_USER',
+	INVALID_CREDENTIALS = 'INVALID_CREDENTIALS'
+}
+
+export enum APIStatuses {
+	SUCCESS = 'SUCCESS',
+	ERROR = 'ERROR'
+}
+
 export enum UserPermissions {
 	DEVELOPER = 'DEVELOPER',
 	ADMIN = 'ADMIN',

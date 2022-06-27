@@ -21,7 +21,7 @@ const SignUp = () => {
 				password: password.current!.value
 			}
 
-			const response = await fetch(`/api/custom-auth/sign-up`, {
+			const response = await fetch(`/api/auth/sign-up`, {
 				method: APIMethods.POST,
 				headers: {
 					'Content-Type': 'application/json'
