@@ -1,4 +1,5 @@
 import { CredentialedSignUp } from './types'
+import bcrypt from 'bcrypt'
 
 /* eslint-disable no-useless-escape */
 export const validateEmail = (email?: string) => {
@@ -18,4 +19,13 @@ export const validateCredentials = ({ firstName, lastName, email, password }: Cr
 	}
 
 	return true
+}
+
+export const hashPassword = async (password: string) => {
+	const salt = await bcrypt.genSalt(10)
+	return await bcrypt.hash(password, salt)
+}
+
+export const comparePasswords = async (password: string, hash: string) => {
+	return await bcrypt.compare(password, hash)
 }

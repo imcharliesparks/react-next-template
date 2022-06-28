@@ -11,14 +11,14 @@ const SignUp = () => {
 	const rePassword = React.createRef<HTMLInputElement>()
 
 	const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-		// TODO: Add valdiation for forms or add helper library
 		e.preventDefault()
+		// TODO: Sign the user in after signing up
 		try {
 			const credentials: CredentialedSignUp = {
-				firstName: firstName.current!.value,
-				lastName: lastName.current!.value,
-				email: email.current!.value,
-				password: password.current!.value
+				firstName: firstName.current!.value.trim(),
+				lastName: lastName.current!.value.trim(),
+				email: email.current!.value.trim(),
+				password: password.current!.value.trim()
 			}
 
 			const response = await fetch(`/api/auth/sign-up`, {
@@ -29,8 +29,14 @@ const SignUp = () => {
 				body: JSON.stringify(credentials)
 			})
 			await response.json()
-			alert('Sign up successful!')
-		} catch (e: any) {
+			if (response.status === 201) {
+				console.log('response', response)
+				alert('Sign up successful!')
+			} else {
+				alert('Sign up failed!')
+				throw new Error('Sign up failed!')
+			}
+		} catch (e) {
 			console.error(e)
 		}
 	}

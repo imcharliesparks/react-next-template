@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 import NextAuth, { RequestInternal } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { UserModel } from '../../../models/CredentialedUser'
+import { CredentialedUser, UserModel } from '../../../models/CredentialedUser'
 import { MONGODB_URI } from '../../../shared/constants'
-import bcrypt from 'bcrypt'
+import { comparePasswords } from '../../../shared/utils'
 
 type NextAuthCredentials = {
 	email: string
@@ -28,49 +28,37 @@ export default NextAuth({
 				await mongoose.connect(MONGODB_URI)
 
 				const { email, password } = credentials!
-				const foundUser = await UserModel.findOne({ email })
+				const foundUser: CredentialedUser | null = await UserModel.findOne({ email })
 
 				if (!foundUser) {
 					throw new Error('User not found')
 				}
 
-				const passwordsMatch: boolean = await bcrypt.compare(password, foundUser.password)
+				const passwordsMatch: boolean = await comparePasswords(password, foundUser.password)
 
 				if (passwordsMatch) {
-					return foundUser.toJSON()
+					const result: Partial<CredentialedUser> = {
+						_id: foundUser._id!.toString(),
+						firstName: foundUser.firstName,
+						lastName: foundUser.lastName,
+						email: foundUser.email,
+						permissions: foundUser.permissions
+					}
+
+					return result
 				} else {
 					throw new Error("Passwords don't match")
 				}
 			}
 		})
 	],
-	callbacks: {
-		// TODO: Fix this
-		// async jwt(params: any) {
-		// 	console.log('params', params)
-		// 	const { token, user, account } = params
-		// 	if (account && user) {
-		// 		return {
-		// 			...token,
-		// 			accessToken: user.data.token,
-		// 			refreshToken: user.data.refreshToken
-		// 		}
-		// 	}
-
-		// 	return token
-		// },
-
-		async session({ session, token }: any) {
-			session.user.accessToken = token.accessToken
-			return session
-		}
-	},
 	session: {
-		strategy: 'jwt'
+		strategy: 'jwt',
+		maxAge: 14 * 24 * 60 * 60, // two weeks
+		updateAge: 1 * 24 * 60 * 60 // one day
 	},
-	secret: process.env.NEXTAUTH_SECRET,
-	// TODO: Implement custom page capabilities
 	pages: {
 		signIn: '/auth/sign-in'
-	}
+	},
+	secret: process.env.NEXTAUTH_SECRET
 })

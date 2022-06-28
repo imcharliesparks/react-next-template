@@ -1,14 +1,15 @@
 import React from 'react'
 import { CredentialedSignIn } from '../../shared/types'
-import { signIn } from 'next-auth/react'
+import { signIn, SignInResponse } from 'next-auth/react'
 import CustomHead from '../../components/Layout/Head'
+import { useRouter } from 'next/router'
 
 const SignIn = () => {
 	const email = React.createRef<HTMLInputElement>()
 	const password = React.createRef<HTMLInputElement>()
+	const router = useRouter()
 
 	const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-		// TODO: Properly authenticate user with Next sign-in
 		// TODO: Properly handle errors in UI
 		e.preventDefault()
 		try {
@@ -16,12 +17,12 @@ const SignIn = () => {
 				email: email.current!.value,
 				password: password.current!.value
 			}
+			const response: SignInResponse | undefined = await signIn('credentials', { redirect: false, ...credentials })
 
-			const response = await signIn('credentials', { redirect: false, ...credentials })
 			if (response?.error || !response) {
 				throw new Error(response?.error ?? 'There was an undefined error signing in')
 			} else {
-				alert('Successfully signed in')
+				router.push('/')
 			}
 		} catch (e) {
 			console.error(e)

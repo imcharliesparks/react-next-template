@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { UserPermissions } from '../shared/types'
 
 export interface CredentialedUser {
+	_id?: string
 	firstName: string
 	lastName: string
 	permissions?: UserPermissions

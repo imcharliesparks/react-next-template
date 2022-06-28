@@ -1,9 +1,13 @@
 import type { NextPage } from 'next'
+import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
+import { NextAuthStatues } from '../shared/types'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
+	const { data: session, status } = useSession()
+
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -14,7 +18,8 @@ const Home: NextPage = () => {
 
 			<main className={styles.main}>
 				<h1 className={styles.title}>
-					Welcome to <a href="https://nextjs.org">Next.js!</a>
+					Welcome to the Template!{' '}
+					{session && status === NextAuthStatues.AUTHENTICATED ? `You're signed in!` : `You're not signed in.`}
 				</h1>
 
 				<p className={styles.description}>
