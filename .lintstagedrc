@@ -1,0 +1,4 @@
+{
+    "**/*.(ts|tsx)": ["yarn tsc --noEmit", "yarn eslint", "yarn prettier --write"],
+    "**/*.(md|json)": "yarn prettier --write"
+}

@@ -10,7 +10,8 @@
 		"test": "jest",
 		"test:all": "jest && cypress:ci",
 		"cypress": "cypress open",
-		"cypress:ci": "cypress run"
+		"cypress:ci": "cypress run",
+		"prepare": "husky install"
 	},
 	"dependencies": {
 		"@next-auth/mongodb-adapter": "^1.0.3",
@@ -40,8 +41,10 @@
 		"eslint": "8.18.0",
 		"eslint-config-next": "12.1.6",
 		"eslint-plugin-react": "^7.30.0",
+		"husky": "^8.0.0",
 		"jest": "^28.1.1",
 		"jest-environment-jsdom": "^28.1.1",
+		"lint-staged": "^13.0.3",
 		"postcss": "^8.4.14",
 		"prettier": "2.7.1",
 		"tailwindcss": "^3.1.4",
