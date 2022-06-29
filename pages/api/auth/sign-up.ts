@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { CredentialedUser, UserModel } from '../../../models/CredentialedUser'
-import { APIMethods, APIStatuses, AuthResponses, UserPermissions } from '../../../shared/types'
+import { APIMethods, APIStatuses, AuthResponses, GeneralAPIResponses, UserPermissions } from '../../../shared/types'
 import { hashPassword, validateSignupCredentials } from '../../../shared/utils'
 import { connectToMongoDB } from '../../../lib/db'
 
@@ -36,6 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			: res.status(400).json({ status: APIStatuses.ERROR, type: AuthResponses.UNABLE_TO_SAVE_USER })
 	} catch (e) {
 		console.log('e', e)
+		res.status(400).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.FAILURE, data: { error: e } })
 	}
 }
 
