@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { UserModel } from '../../../models/CredentialedUser'
-import { APIMethods, APIStatuses, AuthResponses } from '../../../shared/types'
+import { APIMethods, APIStatuses, AuthResponses, GeneralAPIResponses } from '../../../shared/types'
 import { comparePasswords } from '../../../shared/utils'
 import { connectToMongoDB } from '../../../lib/db'
 
@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (method !== APIMethods.DELETE) {
 		return res.status(404).json({
 			status: APIStatuses.ERROR,
-			type: AuthResponses.INVALID_REQUEST_TYPE,
+			type: GeneralAPIResponses.INVALID_REQUEST_TYPE,
 			data: { expectedRequestType: APIMethods.DELETE }
 		})
 	}

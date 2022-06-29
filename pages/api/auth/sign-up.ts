@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
 
 	if (method !== APIMethods.POST) {
-		return res.status(404).json({ status: APIStatuses.ERROR, type: AuthResponses.INVALID_REQUEST_TYPE })
+		return res.status(404).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.INVALID_REQUEST_TYPE })
 	}
 
 	try {

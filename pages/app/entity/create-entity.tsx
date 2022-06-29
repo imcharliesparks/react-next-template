@@ -15,7 +15,7 @@ const CreateEntity = () => {
 		e.preventDefault()
 		try {
 			const entity = { key: key.current!.value.trim() }
-			const response = await fetch(`/api/entity/crud`, {
+			const response = await fetch(`/api/entity/create`, {
 				method: APIMethods.POST,
 				headers: {
 					'Content-Type': 'application/json'
