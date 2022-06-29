@@ -18,9 +18,9 @@ plugins:
  - '@typescript-eslint'
 rules:
  {
-  '@typescript-eslint/ban-ts-comment': 'warn',
   '@typescript-eslint/no-non-null-assertion': 'off',
   'no-case-declarations': 'off',
   react-hooks/exhaustive-deps: 'off',
-  'no-mixed-spaces-and-tabs': 'off'
+  'no-mixed-spaces-and-tabs': 'off',
+  '@typescript-eslint/ban-ts-comment': 'off'
  }

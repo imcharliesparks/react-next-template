@@ -1,13 +1,13 @@
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React from 'react'
 import Loading from '../../../components/general/Loading'
 import CustomHead from '../../../components/Layout/Head'
-import { usePageSecurity } from '../../../hooks/usePageSecurity'
 import { APIMethods, NextAuthStatues } from '../../../shared/types'
 
 const CreateEntity = () => {
 	const router = useRouter()
-	const [status] = usePageSecurity()
+	const { status } = useSession()
 	const key = React.createRef<HTMLInputElement>()
 
 	const submit = async (e: React.FormEvent<HTMLFormElement>) => {

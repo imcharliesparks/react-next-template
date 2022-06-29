@@ -60,5 +60,22 @@ export default NextAuth({
 	pages: {
 		signIn: '/auth/sign-in'
 	},
-	secret: process.env.NEXTAUTH_SECRET
+	secret: process.env.NEXTAUTH_SECRET,
+	callbacks: {
+		jwt: async ({ token, account }) => {
+			if (account) {
+				// TODO: Attach role and stuff here once other providers are setup
+				console.log('oAuth account found', account)
+			} else {
+				const foundUser = await UserModel.findOne({ email: token.email })
+				if (foundUser) {
+					token.userPermission = foundUser.permissions
+				} else {
+					throw new Error('Error finding user in JWT callback')
+				}
+			}
+
+			return token
+		}
+	}
 })

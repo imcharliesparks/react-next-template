@@ -14,7 +14,7 @@ const customJestConfig = {
 	moduleDirectories: ['node_modules', '<rootDir>/'],
 	testEnvironment: 'jest-environment-jsdom',
 	setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-	roots: ['<rootDir>/components', '<rootDir>/pages', '<rootDir>/shared', '<rootDir>/hooks'],
+	roots: ['<rootDir>/components', '<rootDir>/pages', '<rootDir>/shared'],
 	transform: {
 		'^.+\\.tsx?$': 'ts-jest'
 	}
