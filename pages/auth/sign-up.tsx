@@ -1,17 +1,25 @@
 import React from 'react'
-import { APIMethods, CredentialedSignUp } from '../../shared/types'
+import { APIMethods, CredentialedSignUp, NextAuthStatues } from '../../shared/types'
 import CustomHead from '../../components/Layout/Head'
 import Link from 'next/link'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import Loading from '../../components/general/Loading'
 
 const SignUp = () => {
 	const router = useRouter()
+	const { data: session, status } = useSession()
 	const firstName = React.createRef<HTMLInputElement>()
 	const lastName = React.createRef<HTMLInputElement>()
 	const email = React.createRef<HTMLInputElement>()
 	const password = React.createRef<HTMLInputElement>()
 	const rePassword = React.createRef<HTMLInputElement>()
+
+	React.useEffect(() => {
+		if (session) {
+			router.push('/')
+		}
+	}, [status])
 
 	// TODO: Handle errors in UI
 	// TODO: Fix refresh on form submit
@@ -46,7 +54,9 @@ const SignUp = () => {
 		}
 	}
 
-	return (
+	return status === NextAuthStatues.LOADING ? (
+		<Loading />
+	) : (
 		<>
 			<CustomHead title="Sign Up" metaContent={{ name: 'signup', content: 'Sign up for the site' }} />
 			<div className="flex h-screen justify-center">

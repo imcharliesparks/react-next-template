@@ -1,13 +1,21 @@
 import React from 'react'
-import { CredentialedSignIn } from '../../shared/types'
-import { signIn, SignInResponse } from 'next-auth/react'
+import { CredentialedSignIn, NextAuthStatues } from '../../shared/types'
+import { signIn, SignInResponse, useSession } from 'next-auth/react'
 import CustomHead from '../../components/Layout/Head'
 import { useRouter } from 'next/router'
+import Loading from '../../components/general/Loading'
 
 const SignIn = () => {
+	const router = useRouter()
+	const { data: session, status } = useSession()
 	const email = React.createRef<HTMLInputElement>()
 	const password = React.createRef<HTMLInputElement>()
-	const router = useRouter()
+
+	React.useEffect(() => {
+		if (session) {
+			router.push('/')
+		}
+	}, [status])
 
 	const submit = async (e: React.FormEvent<HTMLFormElement>) => {
 		// TODO: Properly handle errors in UI
@@ -30,7 +38,9 @@ const SignIn = () => {
 		}
 	}
 
-	return (
+	return status === NextAuthStatues.LOADING ? (
+		<Loading />
+	) : (
 		<>
 			<CustomHead title="Sign in" metaContent={{ name: 'signin', content: 'Sign in to the site' }} />
 			<div className="flex h-screen justify-center">

@@ -2,6 +2,7 @@ import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react'
 import { NextAuthStatues } from '../../shared/types'
+import LoadingSpinner from '../general/LoadingSpinner'
 
 const Header = () => {
 	const { data: session, status } = useSession()
@@ -19,7 +20,9 @@ const Header = () => {
 					</a>
 				</Link>
 				<div className="flex flex-row items-center gap-5 mt-5 sm:justify-end sm:mt-0 sm:pl-5">
-					{session && status === NextAuthStatues.AUTHENTICATED ? (
+					{status === NextAuthStatues.LOADING ? (
+						<LoadingSpinner />
+					) : session && status === NextAuthStatues.AUTHENTICATED ? (
 						<button onClick={handleSignOut} className="text-gray-600 dark:text-gray-400">
 							Sign Out
 						</button>
