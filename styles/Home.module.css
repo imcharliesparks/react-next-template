@@ -4,11 +4,10 @@
 
 .main {
 	min-height: 100vh;
-	padding: 4rem 0;
+	padding: 6rem 0;
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 }
 
@@ -105,6 +104,12 @@
 	margin: 0;
 	font-size: 1.25rem;
 	line-height: 1.5;
+}
+
+.cardLink {
+	cursor: pointer;
+	height: 224px;
+	width: 300px;
 }
 
 .logo {

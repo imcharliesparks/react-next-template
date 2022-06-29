@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import { NextAuthStatues } from '../shared/types'
 import styles from '../styles/Home.module.css'
 
@@ -22,33 +23,36 @@ const Home: NextPage = () => {
 					{session && status === NextAuthStatues.AUTHENTICATED ? `You're signed in!` : `You're not signed in.`}
 				</h1>
 
-				<p className={styles.description}>
-					Get started by editing <code className={styles.code}>pages/index.tsx</code>
-				</p>
+				<p className={styles.description}>Here&apos;s what we&apos;ve got so far</p>
 
 				<div className={styles.grid}>
-					<a href="https://nextjs.org/docs" className={styles.card}>
-						<h2>Documentation &rarr;</h2>
-						<p>Find in-depth information about Next.js features and API.</p>
-					</a>
+					<Link href="/auth/sign-up" className={styles.card}>
+						<div className={`${styles.card} ${styles.cardLink}`}>
+							<h2>Sign Up &rarr;</h2>
+							<p>Create an account!</p>
+						</div>
+					</Link>
 
-					<a href="https://nextjs.org/learn" className={styles.card}>
-						<h2>Learn &rarr;</h2>
-						<p>Learn about Next.js in an interactive course with quizzes!</p>
-					</a>
+					<Link href="/auth/sign-in" className={styles.card}>
+						<div className={`${styles.card} ${styles.cardLink}`}>
+							<h2>Sign In</h2>
+							<p>Sign in once you&apos;ve created an account!</p>
+						</div>
+					</Link>
 
-					<a href="https://github.com/vercel/next.js/tree/canary/examples" className={styles.card}>
-						<h2>Examples &rarr;</h2>
-						<p>Discover and deploy boilerplate example Next.js projects.</p>
-					</a>
+					<Link href="/app/protected-page-example">
+						<div className={`${styles.card} ${styles.cardLink}`}>
+							<h2>Protected Page</h2>
+							<p>View the protected page and redirect functionality (if not signed in)</p>
+						</div>
+					</Link>
 
-					<a
-						href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-						className={styles.card}
-					>
-						<h2>Deploy &rarr;</h2>
-						<p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
-					</a>
+					<Link href="/app/entity/create-entity" className={styles.card}>
+						<div className={`${styles.card} ${styles.cardLink}`}>
+							<h2>Entities</h2>
+							<p>Create a new data entity with your account!</p>
+						</div>
+					</Link>
 				</div>
 			</main>
 
