@@ -1,5 +1,5 @@
 import { CredentialedSignUp } from '../types'
-import { validateCredentials, validateEmail, validatePassword } from '../utils'
+import { validateSignupCredentials, validateEmail, validatePassword } from '../utils'
 
 describe('CredentialValidation', () => {
 	describe('validateEmail', () => {
@@ -36,12 +36,12 @@ describe('CredentialValidation', () => {
 			password: 'Password123!'
 		}
 		it('should return true for valid credentials', () => {
-			expect(validateCredentials(validCredentials)).toBe(true)
+			expect(validateSignupCredentials(validCredentials)).toBe(true)
 		})
 
 		it('should return false if either `firstName` or `lastName` are undefined', () => {
 			const invalidCredentials: CredentialedSignUp = { ...validCredentials, firstName: '' }
-			expect(validateCredentials(invalidCredentials)).toBe(false)
+			expect(validateSignupCredentials(invalidCredentials)).toBe(false)
 		})
 	})
 })
