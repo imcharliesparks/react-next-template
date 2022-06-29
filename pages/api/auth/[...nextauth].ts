@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import NextAuth, { RequestInternal } from 'next-auth'
+import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { CredentialedUser, UserModel } from '../../../models/CredentialedUser'
 import { MONGODB_URI } from '../../../shared/constants'
@@ -10,7 +10,7 @@ type NextAuthCredentials = {
 	password: string
 }
 
-type NextAuthRequest = Pick<RequestInternal, 'headers' | 'body' | 'query' | 'method'>
+// type NextAuthRequest = Pick<RequestInternal, 'headers' | 'body' | 'query' | 'method'>
 
 export default NextAuth({
 	providers: [
@@ -20,7 +20,7 @@ export default NextAuth({
 				email: { label: 'Email', type: 'email' },
 				password: { label: 'Password', type: 'password' }
 			},
-			async authorize(credentials: NextAuthCredentials | undefined, req: NextAuthRequest) {
+			async authorize(credentials: NextAuthCredentials | undefined) {
 				if (!credentials) {
 					throw new Error('No credentials provided')
 				}

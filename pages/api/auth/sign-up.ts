@@ -1,21 +1,20 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { CredentialedUser, UserModel } from '../../../models/CredentialedUser'
 import { APIMethods, APIStatuses, AuthResponses, UserPermissions } from '../../../shared/types'
-import mongoose from 'mongoose'
-import { MONGODB_URI } from '../../../shared/constants'
-import { hashPassword, validateCredentials } from '../../../shared/utils'
+import { hashPassword, validateSignupCredentials } from '../../../shared/utils'
+import { connectToMongoDB } from '../../../lib/db'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
-
-	await mongoose.connect(MONGODB_URI)
 
 	if (method !== APIMethods.POST) {
 		return res.status(404).json({ status: APIStatuses.ERROR, type: AuthResponses.INVALID_REQUEST_TYPE })
 	}
 
 	try {
-		if (!validateCredentials(body)) {
+		await connectToMongoDB()
+
+		if (!validateSignupCredentials(body)) {
 			return res.status(422).json({ status: APIStatuses.ERROR, type: AuthResponses.INVALID_CREDENTIALS })
 		}
 

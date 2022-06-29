@@ -1,8 +1,6 @@
-import { MongoClient } from 'mongodb'
+import mongoose from 'mongoose'
 import { MONGODB_URI } from '../shared/constants'
 
-// TODO: Decide on ORM vs MongoClient
 export async function connectToMongoDB() {
-	const client = await MongoClient.connect(MONGODB_URI)
-	return client.db()
+	return await mongoose.connect(MONGODB_URI)
 }

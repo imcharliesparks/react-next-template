@@ -2,17 +2,21 @@ import React from 'react'
 import { APIMethods, CredentialedSignUp } from '../../shared/types'
 import CustomHead from '../../components/Layout/Head'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const SignUp = () => {
+	const router = useRouter()
 	const firstName = React.createRef<HTMLInputElement>()
 	const lastName = React.createRef<HTMLInputElement>()
 	const email = React.createRef<HTMLInputElement>()
 	const password = React.createRef<HTMLInputElement>()
 	const rePassword = React.createRef<HTMLInputElement>()
 
+	// TODO: Handle errors in UI
+	// TODO: Fix refresh on form submit
 	const submit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		// TODO: Sign the user in after signing up
 		try {
 			const credentials: CredentialedSignUp = {
 				firstName: firstName.current!.value.trim(),
@@ -30,8 +34,9 @@ const SignUp = () => {
 			})
 			await response.json()
 			if (response.status === 201) {
-				console.log('response', response)
+				await signIn('credentials', { email: credentials.email, password: credentials.password })
 				alert('Sign up successful!')
+				router.push('/')
 			} else {
 				alert('Sign up failed!')
 				throw new Error('Sign up failed!')

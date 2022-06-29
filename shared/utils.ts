@@ -13,7 +13,7 @@ export const validatePassword = (password?: string) => {
 	return !password ? false : re.test(String(password))
 }
 
-export const validateCredentials = ({ firstName, lastName, email, password }: CredentialedSignUp) => {
+export const validateSignupCredentials = ({ firstName, lastName, email, password }: CredentialedSignUp) => {
 	if (!firstName || !lastName || !validateEmail(email) || !validatePassword(password)) {
 		return false
 	}
