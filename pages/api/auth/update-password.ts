@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { UserModel } from '../../../models/CredentialedUser'
 import { APIMethods, APIStatuses, AuthResponses, GeneralAPIResponses } from '../../../shared/types'
-import { comparePasswords } from '../../../shared/utils'
+import { comparePasswords, hashPassword, validatePassword } from '../../../shared/utils'
 import { connectToMongoDB } from '../../../lib/db'
 import { getToken } from 'next-auth/jwt'
 
@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return res.status(401).json({ status: APIStatuses.ERROR, type: AuthResponses.UNAUTHORIZED })
 	}
 
-	if (method !== APIMethods.DELETE) {
+	if (method !== APIMethods.PATCH) {
 		return res.status(404).json({
 			status: APIStatuses.ERROR,
 			type: GeneralAPIResponses.INVALID_REQUEST_TYPE,
@@ -24,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		await connectToMongoDB()
 
-		if (!body.email || !body.password) {
+		if (!body.email || !body.password || !validatePassword(body.newPassword)) {
 			return res.status(422).json({ status: APIStatuses.ERROR, type: AuthResponses.INVALID_CREDENTIALS })
 		}
 
@@ -35,12 +35,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 
 		const passwordsMatch: boolean = await comparePasswords(body.password, foundUser.password)
+		const newPassword = await hashPassword(body.newPassword)
+		foundUser.password = newPassword
 
 		if (!passwordsMatch) {
 			return res.status(400).json({ status: APIStatuses.ERROR, type: AuthResponses.WRONG_PASSWORD })
 		}
 
-		const result = await foundUser.remove()
+		const result = await foundUser.save()
 
 		if (result._id) {
 			return res.status(200).json({ status: APIStatuses.SUCCESS, type: AuthResponses.USER_DELETED })

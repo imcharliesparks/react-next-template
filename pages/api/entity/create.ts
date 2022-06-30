@@ -7,6 +7,11 @@ import { getToken } from 'next-auth/jwt'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
+	const token = await getToken({ req })
+
+	if (!token) {
+		return res.status(401).json({ status: APIStatuses.ERROR, type: AuthResponses.UNAUTHORIZED })
+	}
 
 	if (method !== APIMethods.POST) {
 		return res.status(404).json({ status: APIStatuses.ERROR, type: GeneralAPIResponses.INVALID_REQUEST_TYPE })

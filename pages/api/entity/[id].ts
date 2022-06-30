@@ -7,7 +7,7 @@ import { getToken } from 'next-auth/jwt'
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
 	const { id } = req.query
-	const token = await getToken({ req })
+	const token = await getToken({ req }) // TODO: Extract this to a middleware
 
 	if (!token) {
 		return res.status(401).json({ status: APIStatuses.ERROR, type: AuthResponses.UNAUTHORIZED })
