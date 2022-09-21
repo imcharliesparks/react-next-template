@@ -1,9 +1,12 @@
+import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import mongoose from 'mongoose'
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import GoogleOAuthProvider from 'next-auth/providers/google'
 import { CredentialedUser, UserModel } from '../../../models/CredentialedUser'
 import { MONGODB_URI } from '../../../shared/constants'
 import { comparePasswords } from '../../../shared/utils'
+import clientPromise from '../../../lib/mongodb'
 
 type NextAuthCredentials = {
 	email: string
@@ -13,6 +16,7 @@ type NextAuthCredentials = {
 // type NextAuthRequest = Pick<RequestInternal, 'headers' | 'body' | 'query' | 'method'>
 
 export default NextAuth({
+	adapter: MongoDBAdapter(clientPromise),
 	providers: [
 		CredentialsProvider({
 			name: 'Credentials',
@@ -48,6 +52,18 @@ export default NextAuth({
 					return result
 				} else {
 					throw new Error("Passwords don't match")
+				}
+			}
+		}),
+		GoogleOAuthProvider({
+			clientId: process.env.GOOGLE_CLIENT_ID ?? 'oops',
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? 'whaaaa',
+			profile({ sub: id, name, email, picture: image }, tokens) {
+				return {
+					id,
+					name,
+					email,
+					image
 				}
 			}
 		})

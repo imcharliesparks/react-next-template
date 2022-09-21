@@ -17,6 +17,23 @@ const SignIn = () => {
 		}
 	}, [status])
 
+	const oAuthSignIn = async (provider: string) => {
+		try {
+			const response: SignInResponse | undefined = await signIn(provider)
+
+			if (response?.error || !response) {
+				if (process.env.NODE_ENV === 'production') {
+					throw new Error(response?.error ?? 'There was an undefined error signing in')
+				}
+			} else {
+				router.push('/')
+			}
+		} catch (e) {
+			console.error(e)
+			alert(`We couldn't sign you in!`)
+		}
+	}
+
 	const submit = async (e: React.FormEvent<HTMLFormElement>) => {
 		// TODO: Properly handle errors in UI
 		e.preventDefault()
@@ -47,6 +64,15 @@ const SignIn = () => {
 				<div className="max-w-xs">
 					<form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-14 md:mt-72" onSubmit={submit}>
 						<p className="text-2xl text-center mb-2">Sign In</p>
+						<button
+							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+							type="button"
+							onClick={() => {
+								oAuthSignIn('google')
+							}}
+						>
+							Sign In With Google
+						</button>
 						<div className="mb-4">
 							<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
 								Email
