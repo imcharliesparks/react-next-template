@@ -48,7 +48,7 @@ export enum APIStatuses {
 	ERROR = 'ERROR'
 }
 
-export enum UserPermissions {
+export enum UserRoles {
 	DEVELOPER = 'DEVELOPER',
 	ADMIN = 'ADMIN',
 	USER = 'USER'

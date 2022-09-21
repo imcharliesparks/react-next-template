@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 import type { JWT } from 'next-auth/jwt'
 import { withAuth } from 'next-auth/middleware'
-import { UserPermissions } from '../../../shared/types'
+import { UserRoles } from '../../../shared/types'
 
 export default withAuth(
 	// @ts-ignore
@@ -10,7 +10,7 @@ export default withAuth(
 	},
 	{
 		callbacks: {
-			authorized: ({ token }) => token?.userPermission === UserPermissions.ADMIN
+			authorized: ({ token }) => token?.role === UserRoles.ADMIN
 		}
 	}
 )

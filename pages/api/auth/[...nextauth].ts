@@ -7,13 +7,12 @@ import { CredentialedUser, UserModel } from '../../../models/CredentialedUser'
 import { MONGODB_URI } from '../../../shared/constants'
 import { comparePasswords } from '../../../shared/utils'
 import clientPromise from '../../../lib/mongodb'
+import { UserRoles } from '../../../shared/types'
 
 type NextAuthCredentials = {
 	email: string
 	password: string
 }
-
-// type NextAuthRequest = Pick<RequestInternal, 'headers' | 'body' | 'query' | 'method'>
 
 export default NextAuth({
 	adapter: MongoDBAdapter(clientPromise),
@@ -46,7 +45,7 @@ export default NextAuth({
 						firstName: foundUser.firstName,
 						lastName: foundUser.lastName,
 						email: foundUser.email,
-						permissions: foundUser.permissions
+						role: foundUser.role
 					}
 
 					return result
@@ -58,12 +57,13 @@ export default NextAuth({
 		GoogleOAuthProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID ?? 'oops',
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? 'whaaaa',
-			profile({ sub: id, name, email, picture: image }, tokens) {
+			profile({ sub: id, name, email, picture: image }) {
 				return {
 					id,
 					name,
 					email,
-					image
+					image,
+					role: UserRoles.USER
 				}
 			}
 		})
@@ -78,20 +78,20 @@ export default NextAuth({
 	},
 	secret: process.env.NEXTAUTH_SECRET,
 	callbacks: {
-		jwt: async ({ token, account }) => {
-			if (account) {
-				// TODO: Attach role and stuff here once other providers are setup
-				console.log('oAuth account found', account)
-			} else {
-				const foundUser = await UserModel.findOne({ email: token.email })
-				if (foundUser) {
-					token.userPermission = foundUser.permissions
-				} else {
-					throw new Error('Error finding user in JWT callback')
-				}
+		async jwt({ token, user, account }) {
+			if (account && user) {
+				token.accessToken = account.access_token
+				token.role = user.role
 			}
 
 			return token
+		},
+		async session({ session, token, user }) {
+			if (session.user) {
+				// @ts-ignore
+				session.user.role = token.role
+			}
+			return session
 		}
 	}
 })

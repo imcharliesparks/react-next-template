@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { CredentialedUser, UserModel } from '../../../models/CredentialedUser'
-import { APIMethods, APIStatuses, AuthResponses, GeneralAPIResponses, UserPermissions } from '../../../shared/types'
+import { APIMethods, APIStatuses, AuthResponses, GeneralAPIResponses, UserRoles } from '../../../shared/types'
 import { hashPassword, validateSignupCredentials } from '../../../shared/utils'
 import { connectToMongoDB } from '../../../lib/db'
 
@@ -18,7 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			return res.status(422).json({ status: APIStatuses.ERROR, type: AuthResponses.INVALID_CREDENTIALS })
 		}
 
-		const newUser: CredentialedUser = { ...body, permission: body.permissions ?? UserPermissions.USER }
+		const newUser: CredentialedUser = { ...body, permission: body.role ?? UserRoles.USER }
 		const foundUser = await UserModel.findOne({ email: body.email })
 
 		if (foundUser) {
