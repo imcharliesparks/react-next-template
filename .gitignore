@@ -42,3 +42,4 @@ cypress/videos
 
 # local configs
 settings.json
+.vscode
