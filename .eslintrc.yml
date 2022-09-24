@@ -22,5 +22,6 @@ rules:
   'no-case-declarations': 'off',
   react-hooks/exhaustive-deps: 'off',
   'no-mixed-spaces-and-tabs': 'off',
-  '@typescript-eslint/ban-ts-comment': 'off'
+  '@typescript-eslint/ban-ts-comment': 'off',
+  '@typescript-eslint/no-var-requires': 'off'
  }

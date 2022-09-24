@@ -24,10 +24,9 @@ const Header = () => {
 						<LoadingSpinner />
 					) : session && status === NextAuthStatues.AUTHENTICATED ? (
 						<div>
-							<span className="text-gray-600 dark:text-gray-200">
-								{session.user?.name}({session.user?.role})
+							<span className="text-gray-600 dark:text-gray-200 mr-1">
+								{session.user?.name} ({session.user?.role}),
 							</span>
-							,
 							<button onClick={handleSignOut} className="text-gray-600 dark:text-gray-400">
 								Sign Out
 							</button>

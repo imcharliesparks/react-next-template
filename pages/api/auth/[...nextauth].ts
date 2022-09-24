@@ -82,6 +82,8 @@ export default NextAuth({
 			if (account && user) {
 				token.accessToken = account.access_token
 				token.role = user.role
+				token.firstName = user.firstName
+				token.lastName = user.lastName
 			}
 
 			return token
@@ -90,7 +92,10 @@ export default NextAuth({
 			if (session.user) {
 				// @ts-ignore
 				session.user.role = token.role
+				// @ts-ignore
+				session.user.name = `${token.firstName} ${token.lastName}`
 			}
+
 			return session
 		}
 	}
