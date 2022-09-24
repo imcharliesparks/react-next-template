@@ -86,7 +86,7 @@ export default NextAuth({
 
 			return token
 		},
-		async session({ session, token, user }) {
+		async session({ session, token }) {
 			if (session.user) {
 				// @ts-ignore
 				session.user.role = token.role
