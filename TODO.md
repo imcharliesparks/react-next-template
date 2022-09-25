@@ -1,0 +1,1 @@
+- Implement loading spinner or animation for route changes
