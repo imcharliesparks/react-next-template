@@ -1,6 +1,7 @@
-import { Schema, model, ObjectId } from 'mongoose'
+import { Schema, model, ObjectId, models } from 'mongoose'
 
 export interface IEntity {
+	_id?: string
 	userId: ObjectId | string
 	key: string
 	value: string
@@ -23,4 +24,4 @@ const entitySchema = new Schema<IEntity>({
 	updatedAt: Date
 })
 
-export const Entity = model('Entity', entitySchema)
+export const Entity = models.Entity || model('Entity', entitySchema)
