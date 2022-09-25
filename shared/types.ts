@@ -74,3 +74,8 @@ export type CredentialedSignIn = {
 	email: string
 	password: string
 }
+
+export type CardButton = {
+	text: string
+	action: () => void
+}

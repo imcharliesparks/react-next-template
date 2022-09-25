@@ -17,7 +17,7 @@ const Home: NextPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<main className={styles.main}>
+			<main className="flex flex-col items-center pt-4 pb-24">
 				<h1 className={styles.title}>
 					Welcome to the Template!{' '}
 					{session && status === NextAuthStatues.AUTHENTICATED ? `You're signed in!` : `You're not signed in.`}

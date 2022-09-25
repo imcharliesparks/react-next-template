@@ -9,6 +9,7 @@ const CreateEntity = () => {
 	const router = useRouter()
 	const { status } = useSession()
 	const key = React.createRef<HTMLInputElement>()
+	const val = React.createRef<HTMLInputElement>()
 
 	const submit = async (e: React.FormEvent<HTMLFormElement>) => {
 		// TODO: Properly handle errors in UI
@@ -40,12 +41,12 @@ const CreateEntity = () => {
 	) : (
 		<>
 			<CustomHead title="Create Entity" metaContent={{ name: 'create-entity', content: 'Create a new data entity!' }} />
-			<div className="flex h-screen justify-center">
-				<div className="max-w-xs">
-					<form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-14 md:mt-72" onSubmit={submit}>
+			<div className="flex h-full justify-center container mx-auto">
+				<div className="max-w-md">
+					<form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mt-14 md:mt-24" onSubmit={submit}>
 						<p className="text-2xl text-center mb-2">Sign In</p>
 						<div className="mb-4">
-							<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+							<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="key">
 								Key
 							</label>
 							<input
@@ -56,6 +57,18 @@ const CreateEntity = () => {
 								ref={key}
 							/>
 						</div>
+						<div className="mb-4">
+							<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="value">
+								Value
+							</label>
+							<input
+								className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+								id="value"
+								type="text"
+								placeholder="value"
+								ref={val}
+							/>
+						</div>
 						<div className="flex items-center justify-between">
 							<button
 								className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -63,10 +76,6 @@ const CreateEntity = () => {
 							>
 								Create
 							</button>
-							{/* TODO: Implement forgot password */}
-							{/* <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-							Forgot Password?
-						</a> */}
 						</div>
 					</form>
 				</div>

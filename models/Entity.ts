@@ -3,6 +3,7 @@ import { Schema, model, ObjectId } from 'mongoose'
 export interface IEntity {
 	userId: ObjectId | string
 	key: string
+	value: string
 	createdAt: Date
 	updatedAt: Date
 }
@@ -14,6 +15,7 @@ const entitySchema = new Schema<IEntity>({
 		ref: 'User'
 	},
 	key: String,
+	value: String,
 	createdAt: {
 		type: Date,
 		required: true
